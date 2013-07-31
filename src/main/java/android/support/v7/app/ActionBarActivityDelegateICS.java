@@ -174,9 +174,14 @@ class ActionBarActivityDelegateICS extends ActionBarActivityDelegate {
 
         ActionModeWrapper.CallbackWrapper wrappedCallback = new ActionModeWrapper.CallbackWrapper(
                 context, callback);
-        ActionModeWrapper wrappedMode = new ActionModeWrapper(context,
-                mActivity.startActionMode(wrappedCallback));
-        wrappedCallback.setLastStartedActionMode(wrappedMode);
+        ActionModeWrapper wrappedMode = null;
+
+        android.view.ActionMode frameworkMode = mActivity.startActionMode(wrappedCallback);
+
+        if (frameworkMode != null) {
+            wrappedMode = new ActionModeWrapper(context, frameworkMode);
+            wrappedCallback.setLastStartedActionMode(wrappedMode);
+        }
 
         return wrappedMode;
     }
